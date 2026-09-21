@@ -14,10 +14,7 @@
     let options = null;
     let client = null;
 
-    // Asks if the user allows non-secure connections
     let allowNonSecure = false;
-
-    // Set once the launcher starts updating itself, drives the splash progress bar
     let updateProgress = null;
 
     async function handleUpdate() {
@@ -67,7 +64,7 @@
             };
             console.debug("Options loaded:", options);
         } catch (e) {
-            console.error("Failed to load options:", e);
+            console.error("Failed to load launcher options:", e);
 
             error = {
                 message: "Failed to load launcher options",
@@ -95,8 +92,6 @@
         try {
             await invoke("check_system");
         } catch (e) {
-            // We want to continue allowing the user to use the launcher even 
-            // if the system check fails
             alert("Looks like there is a configuration issue with your system.\n\n" + e);
         }
     }
@@ -135,11 +130,23 @@
 
 <style>
     .window {
-        background-color: rgba(0, 0, 0, 0.6);
+        background-image: url("/img/wallpaper1.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         width: 100vw;
         height: 100vh;
         padding: 32px;
         overflow: hidden;
+        position: relative;
+    }
+
+    .window::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.2);
+        pointer-events: none;
     }
 
     .drag-area {
@@ -152,8 +159,8 @@
     }
 
     @media (prefers-color-scheme: light) {
-        .window {
-            background-color: rgba(0, 0, 0, 0.8);
+        .window::before {
+            background: rgba(0, 0, 0, 0.25);
         }
     }
 </style>
